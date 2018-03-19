@@ -1,5 +1,5 @@
 import os
-import glob
+#import glob
 import errno
 import random
 import urllib
@@ -11,10 +11,10 @@ class CWRU:
 
     def __init__(self, exp, rpm, length):
         if exp not in ('12DriveEndFault', '12FanEndFault', '48DriveEndFault'):
-            print "wrong experiment name: {}".format(exp)
+            print("wrong experiment name: {}".format(exp))
             exit(1)
         if rpm not in ('1797', '1772', '1750', '1730'):
-            print "wrong rpm value: {}".format(rpm)
+            print("wrong rpm value: {}".format(rpm))
             exit(1)
         # root directory of all data
         rdir = os.path.join(os.path.expanduser('~'), 'Datasets/CWRU')
@@ -41,11 +41,11 @@ class CWRU:
             if exc.errno == errno.EEXIST and os.path.isdir(path):
                 pass
             else:
-                print "can't create directory '{}''".format(path)
+                print("can't create directory '{}''".format(path))
                 exit(1)
 
     def _download(self, fpath, link):
-        print "Downloading to: '{}'".format(fpath)
+        print("Downloading to: '{}'".format(fpath))
         urllib.URLopener().retrieve(link, fpath)
 
     def _load_and_slice_data(self, rdir, infos):
