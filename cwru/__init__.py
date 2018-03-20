@@ -44,9 +44,13 @@ class CWRU:
                 print("can't create directory '{}''".format(path))
                 exit(1)
 
-    def _download(self, fpath, link):
-        print("Downloading to: '{}'".format(fpath))
-        urllib.URLopener().retrieve(link, fpath)
+    # def _download(self, fpath, link):
+    #     print("Downloading to: '{}'".format(fpath))
+    #     urllib.URLopener().retrieve(link, fpath)
+
+    def _copyfile_from_dataset(self, rdir, fpath, info):
+        existed_file_path = fpath
+        #这部分未完成，因为有部分数据结尾名字重复
 
     def _load_and_slice_data(self, rdir, infos):
         self.X_train = np.zeros((0, self.length))
@@ -59,7 +63,8 @@ class CWRU:
             self._mkdir(fdir)
             fpath = os.path.join(fdir, info[2] + '.mat')
             if not os.path.exists(fpath):
-                self._download(fpath, info[3].rstrip('\n'))
+                # self._download(fpath, info[3].rstrip('\n'))
+                self._copyfile_from_dataset(fpath, info)
 
             mat_dict = loadmat(fpath)
             key = filter(lambda x: 'DE_time' in x, mat_dict.keys())[0]
@@ -87,3 +92,4 @@ class CWRU:
         random.Random(0).shuffle(index)
         self.X_test = self.X_test[index]
         self.y_test = tuple(self.y_test[i] for i in index)
+
